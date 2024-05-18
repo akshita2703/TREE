@@ -52,6 +52,7 @@ void inOrder(Node* root){
     inOrder(root->right);
 
 }
+
 void postOrder(Node* root){
     if(!root) return ;
     
@@ -64,18 +65,41 @@ void postOrder(Node* root){
 // O(n) time and O(h) space h is the height of node (incase of skewtree it will be O(n-- number of nodes))
 // space recursive stack space
 
-void levelOrder(Node* root){
-    if(!root) return;
+int  levelOrder(Node* root){
+    int count =1;
+    if(!root) return 0;
     queue<Node*> q;
     q.push(root);
+    q.push(NULL);
     while(!q.empty()){
         Node* temp = q.front();
         q.pop();
-        cout<<temp->data<<" ";
-        if(temp->left)q.push(temp->left);
-        if(temp->right)q.push(temp->right);
+        if(temp == NULL ){
+            cout << endl;
+            
+            if(!q.empty()){
+                count++;
+                q.push(NULL);
+            }
+           
+        }
+        else{
+            cout<<temp->data<<" ";
+            if(temp->left)q.push(temp->left);
+            if(temp->right)q.push(temp->right);
 
+        }
+        
     }
+    return count;
+}
+
+int maxDepth(Node * root){
+
+    if(!root)return 0;
+    int left = maxDepth(root->left);
+    int right =maxDepth(root->right);
+    return 1+max(left,right);
 }
 
 int main(){
@@ -88,7 +112,10 @@ int main(){
     cout<<endl;
     inOrder(root);
     cout<<endl;
-    levelOrder(root);
+    cout<<levelOrder(root);
+    cout<<endl;
+
+    cout<<maxDepth(root)<<endl;
 
 
     return 0;
