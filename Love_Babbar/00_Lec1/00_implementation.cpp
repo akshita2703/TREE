@@ -62,6 +62,8 @@ void postOrder(Node* root){
 }
 // complexity of these 3 traversal are 
 // O(n) time and O(h) space h is the height of node (incase of skewtree it will be O(n-- number of nodes))
+// space recursive stack space
+
 int main(){
 
     Node* root = createTree();
