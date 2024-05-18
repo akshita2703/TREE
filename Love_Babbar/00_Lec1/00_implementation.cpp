@@ -64,6 +64,20 @@ void postOrder(Node* root){
 // O(n) time and O(h) space h is the height of node (incase of skewtree it will be O(n-- number of nodes))
 // space recursive stack space
 
+void levelOrder(Node* root){
+    if(!root) return;
+    queue<Node*> q;
+    q.push(root);
+    while(!q.empty()){
+        Node* temp = q.front();
+        q.pop();
+        cout<<temp->data<<" ";
+        if(temp->left)q.push(temp->left);
+        if(temp->right)q.push(temp->right);
+
+    }
+}
+
 int main(){
 
     Node* root = createTree();
@@ -72,8 +86,10 @@ int main(){
     cout<<endl;
     postOrder(root);
     cout<<endl;
-
     inOrder(root);
+    cout<<endl;
+    levelOrder(root);
+
 
     return 0;
 
