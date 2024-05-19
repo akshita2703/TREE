@@ -102,7 +102,7 @@ int maxDepth(Node * root){
     return 1+max(left,right);
 }
 
-int searchIdx(int inorder[],int size, int element){
+int searchIdx(int inorder[],int size, int element){  // here searching algo taking O(n) everytime to optmize this i can use map
     for(int i =0;i<size;i++){
         if(inorder[i]==element){
             return i;
@@ -111,7 +111,16 @@ int searchIdx(int inorder[],int size, int element){
     return -1;
 }
 
-Node* constructTree(int preorder[], int &preIndx , int inorder[],int inStart,int inEnd,int size){
+void createMapping(int inorder[],int size,map<int,int>&mp){
+    for(int i =0;i<size;i++){
+        int ele = inorder[i];
+        mp[ele] = i;
+    }
+}
+
+
+
+Node* constructTree(map<int,int>&mp,int preorder[], int &preIndx , int inorder[],int inStart,int inEnd,int size){
     // base case 
     if(preIndx>=size || inStart>inEnd) return NULL;
     // 1 case solve krte h
@@ -119,10 +128,11 @@ Node* constructTree(int preorder[], int &preIndx , int inorder[],int inStart,int
     preIndx++;
     Node* root = new Node(element);
     // element search krte h 
-    int position = searchIdx(inorder,size,element);
+    // int position = searchIdx(inorder,size,element);
+    int position = mp[element];
     // bki case recursion smbhl lega
-    root->left = constructTree(preorder,preIndx,inorder,inStart,position-1,size);
-    root->right = constructTree(preorder,preIndx,inorder,position+1,inEnd,size);
+    root->left = constructTree(mp,preorder,preIndx,inorder,inStart,position-1,size);
+    root->right = constructTree(mp,preorder,preIndx,inorder,position+1,inEnd,size);
     return root;
 }
 
@@ -134,7 +144,9 @@ int main(){
     int inStart = 0;
     int inEnd = 5;
     int size = 6;
-    Node* root =  constructTree(preorder,preIndx,inorder,inStart,inEnd,size);
+    map<int,int> mp;
+    createMapping(inorder, size , mp);
+    Node* root =  constructTree(mp,preorder,preIndx,inorder,inStart,inEnd,size);
     cout<< "printing entire tree"<<endl;
     levelOrder(root);
 //  2
@@ -147,7 +159,7 @@ int main(){
 // 2          ye sahi output h boss
 // 8 4
 // 10 6 12
-    
+    // preorder or inorder se tree create krna
 
     // Node* root = createTree();
     // cout << root->data << endl;
